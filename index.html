@@ -1,22 +1,616 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absen siswa</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom right, #f8faff, #eef2f8); /* Light, subtle gradient */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #2c3e50; /* Darker text for professionalism */
+            overflow-x: hidden;
+            position: relative;
+        }
 
-  <title>HTML</title>
-  
-  <!-- HTML -->
-  
+        /* Header styling */
+        .header-bg {
+            background: linear-gradient(to right, #1a2a4a, #2a3a5a); /* Deep blue/navy gradient */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Smaller shadow */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.75rem 1rem; /* Smaller padding for mobile */
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .header-bg {
+                padding: 1rem 1.5rem; /* Larger padding for desktop */
+            }
+        }
+        .header-title {
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+            font-size: 1.25rem; /* Smaller font size for mobile */
+            line-height: 1.2; /* Reduce line spacing */
+        }
+        @media (min-width: 768px) {
+            .header-title {
+                font-size: 1.75rem; /* Larger font size for desktop */
+            }
+        }
+        .header-tagline {
+            color: #a7d9f7; /* Lighter blue for tagline */
+            font-size: 0.75rem; /* Smaller font size for mobile */
+            margin-top: 0.1rem; /* Small margin */
+            line-height: 1.2; /* Reduce line spacing */
+        }
+        @media (min-width: 768px) {
+            .header-tagline {
+                font-size: 0.875rem; /* Larger font size for desktop */
+            }
+        }
 
-  <!-- Custom Styles -->
-  <link rel="stylesheet" href="style.css">
+        /* Footer styling */
+        .footer-bg {
+            background: linear-gradient(to right, #1a2a4a, #2a3a5a);
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.75rem 1rem; /* Smaller padding for mobile */
+        }
+        @media (min-width: 768px) {
+            .footer-bg {
+                padding: 1rem 1.5rem; /* Larger padding for desktop */
+            }
+        }
+        .footer-text { /* Class for footer text */
+            font-size: 0.75rem; /* Smaller font size for mobile */
+        }
+        @media (min-width: 768px) {
+            .footer-text {
+                font-size: 0.875rem; /* Larger font size for desktop */
+            }
+        }
+        .social-icon {
+            transition: transform 0.3s ease, color 0.3s ease;
+            color: #a7d9f7;
+            font-size: 1.5rem; /* Smaller icon size for mobile */
+        }
+        @media (min-width: 768px) {
+            .social-icon {
+                font-size: 1.75rem; /* Larger icon size for desktop */
+            }
+        }
+
+        /* Main card styling */
+        .card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: fadeInScale 0.8s ease-out forwards;
+            border: 1px solid #e0e0e0;
+            padding: 2.5rem;
+        }
+        .card h2 {
+            font-size: 1.75rem; /* Smaller font size for mobile */
+        }
+        @media (min-width: 768px) {
+            .card h2 {
+                font-size: 2.25rem; /* Larger font size for desktop */
+            }
+        }
+        .card .main-text { /* Class for main text in card */
+            font-size: 0.95rem; /* Smaller font size for mobile */
+            margin-bottom: 1.5rem; /* Smaller bottom margin */
+        }
+        @media (min-width: 768px) {
+            .card .main-text {
+                font-size: 1.125rem; /* Larger font size for desktop */
+                margin-bottom: 2rem;
+            }
+        }
+
+        /* Dropdown styling */
+        .dropdown-select {
+            border: 1px solid #c0d9e7;
+            transition: all 0.3s ease;
+            background-color: #f0f4f8;
+            color: #334155;
+            border-radius: 0.75rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+            appearance: none;
+            padding: 0.65rem 1.25rem; /* Smaller padding */
+            font-size: 1rem; /* Smaller font size */
+            padding-right: 2.5rem; /* Space for arrow */
+        }
+        @media (min-width: 768px) {
+            .dropdown-select {
+                padding: 0.75rem 1.25rem;
+                font-size: 1.125rem;
+                padding-right: 3rem;
+            }
+        }
+        .dropdown-select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+            outline: none;
+        }
+        .dropdown-select option {
+            background-color: #ffffff;
+            color: #334155;
+        }
+        .dropdown-select + .pointer-events-none svg {
+            fill: #6b7280;
+            transition: fill 0.3s ease;
+            width: 1.1rem; /* Smaller arrow size */
+            height: 1.1rem;
+        }
+        @media (min-width: 768px) {
+            .dropdown-select + .pointer-events-none svg {
+                width: 1.25rem;
+                height: 1.25rem;
+            }
+        }
+        .dropdown-select:focus + .pointer-events-none svg {
+            fill: #3b82f6;
+        }
+
+        /* Button styling */
+        .btn-primary {
+            background: linear-gradient(to right, #3b82f6, #2563eb);
+            color: #ffffff;
+            font-weight: 600;
+            padding: 0.65rem 1.75rem; /* Smaller padding */
+            border-radius: 0.75rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease-in-out;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.025em;
+            font-size: 1rem; /* Smaller font size */
+        }
+        @media (min-width: 768px) {
+            .btn-primary {
+                padding: 0.75rem 2rem;
+                font-size: 1.125rem;
+            }
+        }
+        .btn-primary:hover {
+            background: linear-gradient(to right, #2563eb, #3b82f6);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+        .btn-primary:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Animations */
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes slideInFromLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInFromRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            60% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        /* Welcome Message Animations */
+        .welcome-text-1 { animation: slideInFromLeft 1s ease-out forwards; }
+        .welcome-text-2 { animation: slideInFromRight 1s ease-out forwards 0.3s; }
+        .welcome-text-3 { animation: fadeInScale 1s ease-out forwards 0.6s; }
+        .logo-animation { animation: bounceIn 1s ease-out forwards; }
+
+        /* Custom Modal (Pop-up) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: #ffffff;
+            padding: 2rem; /* Smaller padding */
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            text-align: center;
+            max-width: 400px; /* Smaller max-width */
+            width: 90%;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .modal-title {
+            color: #1a2a4a;
+            font-weight: 700;
+            font-size: 1.5rem; /* Smaller font size */
+            margin-bottom: 0.75rem;
+        }
+        .modal-text {
+            color: #334155;
+            font-size: 0.95rem; /* Smaller font size */
+            margin-bottom: 1.25rem;
+        }
+        .modal-button {
+            background: linear-gradient(to right, #3b82f6, #2563eb);
+            color: white;
+            padding: 0.6rem 1.5rem; /* Smaller padding */
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        .modal-button:hover {
+            background: linear-gradient(to right, #2563eb, #3b82f6);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .loading-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #3b82f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Logo Container with Shine and Moving Background Light */
+        .logo-circle-container {
+            position: relative;
+            overflow: hidden; /* Important to contain pseudo-elements */
+            border-radius: 9999px; /* Perfect circle */
+            background-color: white;
+            padding: 0.5rem; /* Smaller padding for the image */
+            width: 3rem; /* Smaller fixed size for perfect circle */
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #a7d9f7;
+        }
+        @media (min-width: 768px) {
+            .logo-circle-container {
+                padding: 0.75rem;
+                width: 3.5rem;
+                height: 3.5rem;
+            }
+        }
+        .logo-circle-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensure the image fits well */
+            border-radius: 50%; /* Keep image circular if it's not already */
+        }
+        /* Moving background light effect */
+        .logo-circle-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 50%); /* Subtle white glow */
+            animation: backgroundGlowMove 10s linear infinite; /* Movement animation */
+            z-index: 0; /* Behind the image */
+        }
+        /* Shining sweep effect on top of the logo */
+        .logo-circle-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: logoShineSweep 2s infinite linear 1s; /* Delay and repeat */
+            opacity: 0.7;
+            z-index: 1; /* Above the image */
+        }
+
+        @keyframes backgroundGlowMove {
+            0% { transform: translate(0%, 0%); }
+            25% { transform: translate(0%, 100%); }
+            50% { transform: translate(100%, 100%); }
+            75% { transform: translate(100%, 0%); }
+            100% { transform: translate(0%, 0%); }
+        }
+
+        @keyframes logoShineSweep {
+            0% { transform: translateX(-100%); }
+            60% { transform: translateX(100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* WhatsApp Icon */
+        .whatsapp-icon-container {
+            position: fixed;
+            top: 15px; /* Smaller distance from top */
+            right: -100px; /* Start outside screen */
+            z-index: 900; /* Below modal, above content */
+            opacity: 0;
+            transition: right 0.7s ease-out, opacity 0.7s ease-out; /* Slide and fade animation */
+            cursor: pointer;
+        }
+        @media (min-width: 768px) {
+            .whatsapp-icon-container {
+                top: 20px;
+            }
+        }
+        .whatsapp-icon-container.show {
+            right: 15px; /* Slide into view */
+            opacity: 1;
+        }
+        @media (min-width: 768px) {
+            .whatsapp-icon-container.show {
+                right: 20px;
+            }
+        }
+        .whatsapp-icon {
+            background-color: #25D366; /* WhatsApp green */
+            color: white;
+            padding: 0.4rem; /* Smaller size */
+            border-radius: 50%;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem; /* Smaller icon size */
+            transition: transform 0.2s ease;
+        }
+        @media (min-width: 768px) {
+            .whatsapp-icon {
+                padding: 0.5rem;
+                font-size: 1.1rem;
+            }
+        }
+        .whatsapp-icon:hover {
+            transform: scale(1.1);
+        }
+    </style>
 </head>
+<body class="flex flex-col min-h-screen">
 
-<body>
-  <p>Nothing to see here...</p>
-  <!-- Project -->
-  <script src="main.js"></script>
+    <!-- Welcome Pop-up Modal -->
+    <div id="welcome-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="modal-title">Selamat Datang di Absen Digital</h3>
+            <div class="modal-text">Sistem absen digital siswa filial SMPN 2 Cileles yang dibuat karena kemalasan nitikin sheet printout.</div>
+            <button id="modal-ok-button" class="modal-button">OK</button>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- WhatsApp Icon -->
+    <div id="whatsapp-icon-container" class="whatsapp-icon-container">
+        <a href="https://wa.me/6285817938860" target="_blank" class="whatsapp-icon">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <!-- Header -->
+    <header class="header-bg text-white">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between py-4 px-6">
+            <div class="flex items-center mb-2 md:mb-0 logo-animation">
+                <!-- School Logo with Shine Effect -->
+                <div class="logo-circle-container">
+                    <!-- GANTI URL INI DENGAN URL LOGO ANDA -->
+                    <img src="Lebak.png" alt="Logo Sekolah">
+                    <!-- Contoh: <img src="https://your-domain.com/path/to/your/logo.png" alt="Logo Sekolah"> -->
+                </div>
+                <div class="ml-3"> <!-- Added margin-left for spacing -->
+                    <div class="font-extrabold header-title welcome-text-1">Filial SMPN 2 Cileles</div>
+                    <div class="header-tagline welcome-text-2">Mencetak Generasi Unggul Berakhlak Mulia</div>
+                </div>
+            </div>
+            <nav>
+                <!-- Navigation items can go here if needed -->
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center p-6">
+        <div class="card p-8 w-full max-w-lg text-center">
+            <h2 class="font-bold mb-4 text-gray-800 welcome-text-3">Selamat Datang!</h2>
+            <div class="text-gray-600 main-text welcome-text-3">Sistem Absen Digital Siswa</div>
+
+            <div class="mb-6">
+                <label for="teacher-select" class="block text-gray-700 text-base font-medium mb-3">Pilih Akun Guru Anda:</label>
+                <div class="relative">
+                    <select id="teacher-select" class="dropdown-select block w-full shadow-md text-base cursor-pointer">
+                        <option value="">-- Pilih Guru --</option>
+                        <option value="danu">Danu Septiana, S. Pd</option>
+                        <option value="iiz">Iiz Faizatul Aliah, S. Pd</option>
+                        <option value="risa">Risa Sri Septiani</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
+                        <svg class="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+            </div>
+
+            <button id="login-button" class="btn-primary w-full">
+                Masuk Sebagai Guru
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-bg text-white">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between py-4 px-6 text-center md:text-left">
+            <div class="mb-2 md:mb-0 text-gray-200 footer-text">&copy; 2025 yustfeda. All rights reserved.</div>
+            <div class="flex space-x-4">
+                <a href="#" class="social-icon" aria-label="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://www.instagram.com/yustdanus_?igsh=MmNkdjV4cGdubHBn" class="social-icon" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="social-icon" aria-label="Facebook">
+                    <i class="fab fa-facebook"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const teacherSelect = document.getElementById('teacher-select');
+            const loginButton = document.getElementById('login-button');
+            const welcomeModal = document.getElementById('welcome-modal');
+            const modalOkButton = document.getElementById('modal-ok-button');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const whatsappIconContainer = document.getElementById('whatsapp-icon-container');
+            const whatsappLink = 'https://wa.me/6285817938860';
+
+            const teacherLinks = {
+                danu: 'https://newabsen.netlify.app/',
+                iiz: 'https://abseniiz.netlify.app/',
+                risa: 'https://absenrisa.netlify.app/'
+            };
+
+            const teacherNames = {
+                danu: 'Danu',
+                iiz: 'Iiz',
+                risa: 'Risa'
+            };
+
+            // Show welcome modal on page load
+            welcomeModal.classList.add('show');
+
+            // Hide welcome modal when OK button is clicked
+            modalOkButton.addEventListener('click', () => {
+                welcomeModal.classList.remove('show');
+            });
+
+            // Function to update button text
+            function updateButtonText() {
+                const selectedTeacherKey = teacherSelect.value;
+                if (selectedTeacherKey && teacherNames[selectedTeacherKey]) {
+                    loginButton.textContent = `Masuk Sebagai ${teacherNames[selectedTeacherKey]}`;
+                } else {
+                    loginButton.textContent = `Masuk Sebagai Guru`;
+                }
+            }
+
+            // Initial update of button text
+            updateButtonText();
+
+            // Listen for changes on the dropdown to update button text
+            teacherSelect.addEventListener('change', updateButtonText);
+
+            // Listen for click on the login button
+            loginButton.addEventListener('click', () => {
+                const selectedTeacher = teacherSelect.value;
+                if (selectedTeacher && teacherLinks[selectedTeacher]) {
+                    // Show loading overlay
+                    loadingOverlay.classList.add('show');
+
+                    // Simulate 2-second loading time
+                    setTimeout(() => {
+                        // Hide loading overlay
+                        loadingOverlay.classList.remove('show');
+                        // Redirect to the selected teacher's link
+                        window.location.href = teacherLinks[selectedTeacher];
+                    }, 2000); // 2000 milliseconds = 2 seconds
+                } else {
+                    // Display a custom message if "-- Pilih Guru --" is selected
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+                    errorMessage.innerHTML = `
+                        <div class="modal-content custom-message-box p-8 rounded-lg shadow-xl text-center max-w-sm mx-auto">
+                            <h3 class="modal-title text-red-600">Peringatan!</h3>
+                            <div class="modal-text text-gray-700">Mohon pilih guru terlebih dahulu.</div>
+                            <button id="close-error-message" class="modal-button bg-blue-600 hover:bg-blue-700">
+                                Tutup
+                            </button>
+                        </div>
+                    `;
+                    document.body.appendChild(errorMessage);
+
+                    document.getElementById('close-error-message').addEventListener('click', () => {
+                        errorMessage.remove();
+                    });
+                }
+            });
+
+            // WhatsApp icon animation logic
+            setInterval(() => {
+                whatsappIconContainer.classList.add('show');
+                setTimeout(() => {
+                    whatsappIconContainer.classList.remove('show');
+                }, 5000); // Show for 5 seconds
+            }, 10000); // Repeat every 10 seconds
+
+            // WhatsApp icon click handler
+            whatsappIconContainer.addEventListener('click', () => {
+                window.open(whatsappLink, '_blank');
+            });
+        });
+    </script>
 </body>
 </html>
